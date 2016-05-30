@@ -8,6 +8,8 @@ gem "devise", "4.1.1"
 
 gem "pg", "0.18.4"
 
+gem "que", "0.11.5"
+
 gem "state_machines-activerecord", "0.4.0"
 
 group :production do

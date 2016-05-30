@@ -28,6 +28,20 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -68,6 +82,113 @@ CREATE TABLE accounts (
 
 
 --
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE addresses (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    state text DEFAULT 'fresh'::text NOT NULL,
+    name text NOT NULL,
+    body text NOT NULL,
+    account_id uuid NOT NULL,
+    provider_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE links (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    href text NOT NULL,
+    newsletter_id uuid NOT NULL,
+    provider_id uuid NOT NULL,
+    "position" integer NOT NULL,
+    read_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: newsletters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE newsletters (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    state text DEFAULT 'fresh'::text NOT NULL,
+    body text NOT NULL,
+    headers hstore DEFAULT ''::hstore NOT NULL,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
+    provider_id uuid NOT NULL,
+    address_id uuid NOT NULL,
+    account_id uuid NOT NULL,
+    parsed_at timestamp without time zone,
+    read_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: providers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE providers (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    name text NOT NULL,
+    href text DEFAULT ''::text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: que_jobs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE que_jobs (
+    priority smallint DEFAULT 100 NOT NULL,
+    run_at timestamp with time zone DEFAULT now() NOT NULL,
+    job_id bigint NOT NULL,
+    job_class text NOT NULL,
+    args json DEFAULT '[]'::json NOT NULL,
+    error_count integer DEFAULT 0 NOT NULL,
+    last_error text,
+    queue text DEFAULT ''::text NOT NULL
+);
+
+
+--
+-- Name: TABLE que_jobs; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE que_jobs IS '3';
+
+
+--
+-- Name: que_jobs_job_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE que_jobs_job_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: que_jobs_job_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE que_jobs_job_id_seq OWNED BY que_jobs.job_id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -77,11 +198,58 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: job_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY que_jobs ALTER COLUMN job_id SET DEFAULT nextval('que_jobs_job_id_seq'::regclass);
+
+
+--
 -- Name: accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY accounts
     ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY addresses
+    ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY links
+    ADD CONSTRAINT links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: newsletters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY newsletters
+    ADD CONSTRAINT newsletters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: providers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY providers
+    ADD CONSTRAINT providers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: que_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY que_jobs
+    ADD CONSTRAINT que_jobs_pkey PRIMARY KEY (queue, priority, run_at, job_id);
 
 
 --
@@ -139,7 +307,19 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 SET search_path TO "$user", public;
 
+INSERT INTO schema_migrations (version) VALUES ('20160518004513');
+
 INSERT INTO schema_migrations (version) VALUES ('20160518004514');
 
 INSERT INTO schema_migrations (version) VALUES ('20160518010242');
+
+INSERT INTO schema_migrations (version) VALUES ('20160530012518');
+
+INSERT INTO schema_migrations (version) VALUES ('20160530012645');
+
+INSERT INTO schema_migrations (version) VALUES ('20160530012751');
+
+INSERT INTO schema_migrations (version) VALUES ('20160530012837');
+
+INSERT INTO schema_migrations (version) VALUES ('20160530020035');
 
