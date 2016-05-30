@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title><%= @newsletters.title %></title>
+    <link><%= newsletters_url(subdomain: 'rss', username: current_account.id) %></link>
+    <description><%= @newsletters.description %></description>
+    <% @newsletters.collection.each do |newsletter| %>
+      <item>
+        <title><%= newsletter.title %></title>
+        <link><%= newsletter_url(newsletter.id, subdomain: 'rss', username: current_account.id) %></link>
+        <description>
+          <%== newsletter.description %>
+        </description>
+      </item>
+    <% end %>
+  </channel>
+</rss>

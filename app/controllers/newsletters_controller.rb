@@ -4,8 +4,4 @@ class NewslettersController < ApplicationController
   def index
     @newsletters = current_account.newsletters
   end
-
-  def create
-    # TODO
-  end
 end

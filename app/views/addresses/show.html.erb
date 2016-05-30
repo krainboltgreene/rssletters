@@ -1,0 +1,29 @@
+<h1>Address</h1>
+
+<p>
+  <strong>Email</strong>: <%= @address.to_email %> <em>Don't share this with anyone!</em>
+</p>
+
+<p>
+  <strong>Provider</strong>: <%= @address.provider.name %>
+  <% if @address.provider.advanced? %>
+    (Advanced)
+  <% end %>
+</p>
+
+<% if @address.unconfirmed? %>
+  <p>
+    We're not sure if you've confirmed your address. If you have confirmed your address just ignore this and the next email will automatically mark it as confirmed.
+  </p>
+
+  <p>
+    If you do need to confirm your email address just look at the first message we received:
+  </p>
+
+  <%= @address.newsletters.first.body.html_safe %>
+
+  <p>
+    If you see a confirmation link, just click that!
+  </p>
+
+<% end %>

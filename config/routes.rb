@@ -1,6 +1,21 @@
 Rails.application.routes.draw do
-  resources :newsletters
   devise_for :accounts
 
-  root to: "pages#landing"
+  scope module: 'api' do
+    constraints subdomain: 'api' do
+      resources :newsletters, only: :create
+    end
+  end
+
+  scope module: 'rss' do
+    constraints subdomain: 'rss' do
+      resources :newsletters, only: :index
+    end
+  end
+
+  resources :newsletters
+  resources :addresses
+  resources :providers
+
+  root "pages#show", id: "landing"
 end

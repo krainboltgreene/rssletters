@@ -4,6 +4,8 @@ class Newsletter < ActiveRecord::Base
   belongs_to :address
   has_many :links
 
+  scope :by, ->(provider_id) { where(provider_id: provider_id) }
+
   after_commit :linkify, on: :create
 
   state_machine :state, initial: :fresh do

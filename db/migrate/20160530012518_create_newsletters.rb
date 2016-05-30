@@ -3,6 +3,7 @@ class CreateNewsletters < ActiveRecord::Migration
     create_table :newsletters, id: :uuid do |table|
       table.text :state, null: false, default: "fresh"
       table.text :body, null: false
+      table.text :raw, null: false
       table.hstore :headers, null: false, default: {}
       table.jsonb :metadata, null: false, default: {}
       table.uuid :provider_id, null: false

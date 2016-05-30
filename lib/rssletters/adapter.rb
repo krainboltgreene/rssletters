@@ -1,25 +1,17 @@
 module RSSLetters
   class Adapter
-    require_relative "adapter/postgresweekly"
+    require_relative "adapter/github_jobs"
 
     ENGINES = {
-      "postgresweekly" => :postgresweekly
+      "Github Jobs" => GithubJobs
     }
 
     def initialize(provider)
       @provider = ENGINES[provider.name]
 
       raise ArgumentError, "provider not found: #{provider}" unless @provider
-    end
 
-    def read(newsletter)
-      send(@provider, newsletter.body)
-    end
-
-    private
-
-    def postgresweekly(body)
-      []
+      include @provider
     end
   end
 end

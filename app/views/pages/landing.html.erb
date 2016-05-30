@@ -1,0 +1,55 @@
+<h1>RSSletter</h1>
+
+<h2>What is this?</h2>
+
+<p>
+  A simple RSS feed for all those pesky newsletters you receive in your email. Really, that's it!
+</p>
+
+<p>
+  If you're a software developer you've probably noticed a rise in the number of newsletters you get on a weekly basis. There's a whole industry built around this and that's not even counting the scheduled emails you get from various services or betas!
+</p>
+
+<p>
+  For the newsletters that are basically a list of links (looking at you <em>{{technology}} Weekly</em>) we can instead give you an RSS feed URL.
+</p>
+
+<h2>How does it work?</h2>
+
+<p>
+  Find a newsletter you want to use RSS on? Cool, all you have to do is grab one of our fancy email addresses and give it to the newsletter service. You'll get a RSS feed (for all or a specific newsletter) and we'll handle it from there.
+</p>
+
+<p>
+  For most newsletters you only get basic service: <strong>Your RSS feed contains an item per email they've sent.</strong>
+</p>
+
+<p>
+  For some newsletters (see below) we provide more enhanced features:
+</p>
+
+<ul>
+  <li>For newsletters that have list of links we turn each of those into an RSS item</li>
+  <li>Read tracking for newsletters (and list links)</li>
+  <li>More to come!</li>
+</ul>
+
+<p>
+  Here are the providers that we allow for advanced handling:
+</p>
+
+<ul>
+  <% @providers.each do |provider| %>
+    <li><%= link_to provider.name, provider.href %></li>
+  <% end %>
+</ul>
+
+<% if account_signed_in? %>
+  <p>
+    <%= link_to "If you want to sign up, visit our registration page.", new_account_registration_url %>
+  </p>
+<% else %>
+  <p>
+    <%= link_to "Looks like you're signed in, visit our provisioning page to create a new email address for an RSS feed.", new_address_url %>
+  </p>
+<% end %>

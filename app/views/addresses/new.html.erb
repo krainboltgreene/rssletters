@@ -1,0 +1,24 @@
+<h1>New Address</h1>
+
+<p>
+  Don't see your newsletter provider in the list? <%= link_to "You can create your own at the provider creation page.", new_provider_url %>
+</p>
+
+<%= form_for @address do |form| %>
+  <% if @address.errors.any? %>
+    <ul>
+      <% @address.errors.full_messages.each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <section class="form-group">
+    <%= form.label :provider %>
+    <%= form.collection_select :provider, Provider.all, :id, :name, {include_blank: true}, class: "form-control" %>
+  </section>
+
+  <section>
+    <%= form.submit class:"btn btn-default" %>
+  </section>
+<% end %>

@@ -88,8 +88,7 @@ CREATE TABLE accounts (
 CREATE TABLE addresses (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     state text DEFAULT 'fresh'::text NOT NULL,
-    name text NOT NULL,
-    body text NOT NULL,
+    confirmed_at timestamp without time zone,
     account_id uuid NOT NULL,
     provider_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -141,6 +140,7 @@ CREATE TABLE providers (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     name text NOT NULL,
     href text DEFAULT ''::text NOT NULL,
+    advanced boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
