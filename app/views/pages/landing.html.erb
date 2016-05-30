@@ -46,10 +46,10 @@
 
 <% if account_signed_in? %>
   <p>
-    <%= link_to "If you want to sign up, visit our registration page.", new_account_registration_url %>
+    <%= link_to "Looks like you're signed in, visit our provisioning page to create a new email address for an RSS feed.", new_address_url %>
   </p>
 <% else %>
   <p>
-    <%= link_to "Looks like you're signed in, visit our provisioning page to create a new email address for an RSS feed.", new_address_url %>
+    <%= link_to "If you want to sign up, visit our registration page.", new_account_registration_url %>
   </p>
 <% end %>
