@@ -11,7 +11,7 @@
   <% end %>
 </p>
 
-<% if @address.unconfirmed? %>
+<% unless @address.confirmed? %>
   <p>
     We're not sure if you've confirmed your address. If you have confirmed your address just ignore this and the next email will automatically mark it as confirmed.
   </p>
