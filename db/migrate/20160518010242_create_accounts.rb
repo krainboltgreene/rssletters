@@ -1,4 +1,4 @@
-class DeviseCreateAccounts < ActiveRecord::Migration
+class CreateAccounts < ActiveRecord::Migration
   def change
     create_table :accounts, id: :uuid do |table|
       table.string :email, null: false, index: {unique: true}
