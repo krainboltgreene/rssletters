@@ -6,7 +6,10 @@ class Newsletter < ActiveRecord::Base
 
   scope :by, ->(provider_id) { where(provider_id: provider_id) }
 
+  before_create :normalize
   after_commit :linkify, on: :create
+
+  store_accessor :metadata, :title
 
   state_machine :state, initial: :fresh do
     after_transition any => :parsed do |model|
@@ -26,9 +29,19 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
-  private
-
-  def linkify
+  private def linkify
     EmailParseWorker.enqueue(id: id)
+  end
+
+  private def normalize
+    assign_attributes({
+      headers: raw["Headers"].reduce({}) do |state, pair|
+        state.merge(pair["Name"] => pair["Value"])
+      end,
+      body: raw["HtmlBody"],
+      metadata: {
+        tite: raw["Subject"]
+      }
+    })
   end
 end

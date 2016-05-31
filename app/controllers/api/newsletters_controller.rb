@@ -1,7 +1,13 @@
 module Api
   class NewslettersController < ApplicationController
     def create
-      @newsletter = Newsletter.new
+      @former = NewsletterFormer.new(params)
+
+      if @former.save
+        head :ok
+      else
+        head :unprocessable_entity
+      end
     end
   end
 end

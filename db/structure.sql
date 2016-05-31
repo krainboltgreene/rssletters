@@ -128,7 +128,8 @@ CREATE TABLE newsletters (
     parsed_at timestamp without time zone,
     read_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    raw jsonb NOT NULL
 );
 
 
@@ -322,4 +323,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160530012751');
 INSERT INTO schema_migrations (version) VALUES ('20160530012837');
 
 INSERT INTO schema_migrations (version) VALUES ('20160530020035');
+
+INSERT INTO schema_migrations (version) VALUES ('20160531064928');
 
