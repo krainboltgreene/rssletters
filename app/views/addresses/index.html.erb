@@ -1,0 +1,21 @@
+<h1>Addresses</h1>
+
+<p>
+  These are the list of your custom email addresses. You should have one per newsletter, but <%= link_to "if you want to use one address for all newsletters pick the Generic provider", new_address_url %>.
+</p>
+
+<ul>
+  <% @providers.each do |(provider, addresses)| %>
+    <li>
+      <%= provider.name %>:
+      <ul>
+        <% addresses.each do |address| %>
+          <li>
+            <%= link_to address.to_email, address_url(address) %>
+            (<%= link_to "See newsletters for this address.", newsletters_url(filter: {address: address.id}) %>)
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>

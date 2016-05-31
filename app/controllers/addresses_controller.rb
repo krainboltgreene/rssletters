@@ -2,7 +2,7 @@ class AddressesController < ApplicationController
   before_action :authenticate_account!
 
   def index
-    @addresses = current_account.addresses
+    @providers = current_account.addresses.group_by(&:provider)
   end
 
   def show

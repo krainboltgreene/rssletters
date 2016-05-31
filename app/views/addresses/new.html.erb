@@ -15,7 +15,7 @@
 
   <section class="form-group">
     <%= form.label :provider %>
-    <%= form.collection_select :provider, Provider.all, :id, :name, {include_blank: true}, class: "form-control" %>
+    <%= form.collection_select :provider, Provider.all, :id, :name, {selected: Provider.generic.id}, class: "form-control" %>
   </section>
 
   <section>

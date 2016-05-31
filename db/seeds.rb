@@ -1,9 +1,13 @@
+Provider.create!({
+  name: "Generic",
+  href: "http://www.rssletters.com"
+})
+
 case Rails.env
 when "production"
   Provider.create!({
     name: "Github Jobs",
-    href: "https://jobs.github.com/",
-    advanced: false
+    href: "https://jobs.github.com/"
   })
   Provider.create!({
     name: "Postgres Weekly",

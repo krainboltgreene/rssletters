@@ -1,0 +1,16 @@
+<h1>Newsletters</h1>
+
+<% case %>
+<% when params[:filter][:address] %>
+  <p>
+    These are the newsletters for <%= @newsletters.first.address.to_email %>.
+  </p>
+<% end %>
+
+<ul>
+  <% @newsletters.each do |newsletter| %>
+    <li>
+      <%= link_to newsletter.created_at, newsletter_url(newsletter) %>
+    </li>
+  <% end %>
+</ul>
