@@ -11,6 +11,8 @@ class Newsletter < ActiveRecord::Base
 
   store_accessor :metadata, :title
 
+  validates :account, presence: true
+
   state_machine :state, initial: :fresh do
     after_transition any => :parsed do |model|
       model.parsed_at = Time.now
