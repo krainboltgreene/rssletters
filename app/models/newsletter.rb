@@ -12,6 +12,10 @@ class Newsletter < ActiveRecord::Base
   store_accessor :metadata, :title
 
   validates :account, presence: true
+  validates :provider, presence: true
+  validates :address, presence: true
+  validates :headers, presence: true
+  validates :raw, presence: true
 
   state_machine :state, initial: :fresh do
     after_transition any => :parsed do |model|

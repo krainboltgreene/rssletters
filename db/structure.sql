@@ -296,6 +296,13 @@ CREATE INDEX index_accounts_on_updated_at ON accounts USING btree (updated_at);
 
 
 --
+-- Name: index_providers_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_providers_on_name ON providers USING btree (name);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -325,4 +332,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160530012837');
 INSERT INTO schema_migrations (version) VALUES ('20160530020035');
 
 INSERT INTO schema_migrations (version) VALUES ('20160531064928');
+
+INSERT INTO schema_migrations (version) VALUES ('20160601161431');
 

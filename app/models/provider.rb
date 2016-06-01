@@ -4,9 +4,10 @@ class Provider < ActiveRecord::Base
   has_many :links
 
   scope :advanced, -> { where(advanced: true) }
+
+  validates :name, presence: true, uniqueness: true
+
   def self.generic
     find_by(name: "Generic")
   end
-
-  validates :name, presence: true
 end

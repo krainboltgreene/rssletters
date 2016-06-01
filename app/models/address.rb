@@ -5,6 +5,7 @@ class Address < ActiveRecord::Base
 
   validates :account, presence: true
   validates :provider, presence: true
+  validates :state, presence: true
 
   state_machine :state, initial: :fresh do
     after_transition :confirmed do |model|
