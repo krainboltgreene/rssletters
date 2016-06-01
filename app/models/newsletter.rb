@@ -41,9 +41,7 @@ class Newsletter < ActiveRecord::Base
 
   private def normalize
     assign_attributes({
-      headers: raw["Headers"].reduce({}) do |state, pair|
-        state.merge(pair["Name"] => pair["Value"])
-      end,
+      headers: Hash.new[*raw["Headers"].map(&:values)],
       body: raw["HtmlBody"],
       metadata: {
         tite: raw["Subject"]
