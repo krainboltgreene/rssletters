@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :accounts
 
+  resources :newsletters
+  resources :addresses
+  resources :providers
+
   if Rails.env.production?
     scope module: 'api' do
       constraints subdomain: 'api' do
@@ -22,10 +26,6 @@ Rails.application.routes.draw do
       resources :newsletters, only: :index
     end
   end
-
-  resources :newsletters
-  resources :addresses
-  resources :providers
 
   root "pages#show", id: "landing"
 end
