@@ -4,7 +4,7 @@ class NewslettersPresenter
       @provider = Provider.find_by(id: provider)
       @records = models.by(@provider.id)
     else
-      @records.models
+      @records = models
     end
   end
 
