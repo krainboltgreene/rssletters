@@ -21,7 +21,9 @@
       If you do need to confirm your email address just look at the first message we received:
     </p>
 
-    <%= @address.newsletters.first.body.html_safe %>
+    <frame>
+      <%= @address.newsletters.first.body.html_safe %>
+    </frame>
 
     <p>
       If you see a confirmation link, just click that!
